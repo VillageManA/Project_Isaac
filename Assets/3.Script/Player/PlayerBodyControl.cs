@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBodyControl : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
+    [SerializeField] public Animator animator;
 
 
     void Update()

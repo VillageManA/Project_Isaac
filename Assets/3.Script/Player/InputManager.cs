@@ -20,7 +20,7 @@ public class InputManager : MonoBehaviour
     Vector3 moveDown = new Vector3(0, -1, 0);
     Vector3 moveLeft = new Vector3(-1, 0, 0);
     Vector3 moveRight = new Vector3(1, 0, 0);
-
+    private bool isEKeyPressed = false;
     private bool attackFlg = false;
 
     private IEnumerator[] coroutine = new IEnumerator[4];
@@ -31,10 +31,10 @@ public class InputManager : MonoBehaviour
                 this.moveDown = moveDown;
                 this.moveLeft = moveLeft;
                 this.moveRight = moveRight;*/
-        coroutine[0] = playerControl.TryAttack_co(moveUp);
-        coroutine[1] = playerControl.TryAttack_co(moveDown);
-        coroutine[2] = playerControl.TryAttack_co(moveLeft);
-        coroutine[3] = playerControl.TryAttack_co(moveRight);
+        coroutine[0] = playerControl.TryAttack_co(moveUp, 0.2f);
+        coroutine[1] = playerControl.TryAttack_co(moveDown, 0.2f);
+        coroutine[2] = playerControl.TryAttack_co(moveLeft, 0.2f);
+        coroutine[3] = playerControl.TryAttack_co(moveRight, 0.2f);
     }
     void Update()
     {
@@ -54,8 +54,13 @@ public class InputManager : MonoBehaviour
         {
             player.transform.position = new Vector2(player.transform.position.x + playerControl.speed, player.transform.position.y);
         }
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKey(KeyCode.E)&& !isEKeyPressed)
         {
+            if (playerControl.Boom > 0)
+            {
+                StartCoroutine(TryBoomDelay_co());
+                StartCoroutine(playerControl.TryBoom_co());
+            }
             //폭탄
         }
         /*
@@ -84,35 +89,57 @@ public class InputManager : MonoBehaviour
             attackFlg = true;
             playerControl.StartCoroutine(coroutine[3]);
         }
-        
+
 
         //-----------------------------------//
 
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            playerControl.StopCoroutine(coroutine[0]);
-            attackFlg = false;
+            StopAtt();
+            
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
-            playerControl.StopCoroutine(coroutine[1]);
-            attackFlg = false;
+            StopAtt();
+         
         }
 
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            playerControl.StopCoroutine(coroutine[2]);
-            attackFlg = false;
+            StopAtt();
+            
         }
 
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            playerControl.StopCoroutine(coroutine[3]);
-            attackFlg = false;
+            StopAtt();
+          
         }
 
 
+
+    }
+
+    public void StopAtt()
+    {
+        playerControl.StopCoroutine(coroutine[0]);
+        playerControl.StopCoroutine(coroutine[1]);
+        playerControl.StopCoroutine(coroutine[2]);
+        playerControl.StopCoroutine(coroutine[3]);
+        attackFlg = false;
+    }
+
+    IEnumerator TryBoomDelay_co()
+    {
+        isEKeyPressed = true;
+
+        // E 키를 누를 수 없는 시간 
+        float delayTime = 3.0f;
+
+        // 5초간 기다린 후에 E 키를 다시 누를 수 있도록 상태를 false로 변경
+        yield return new WaitForSeconds(delayTime);
+        isEKeyPressed = false;
 
     }
 }
