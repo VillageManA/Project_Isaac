@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private GameObject player;
@@ -10,74 +11,42 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private PlayerHeadControl playerHead;
     [SerializeField] private GameObject PlayerTears;
     [SerializeField] private GameObject PlayerBooms;
-    public float speed;
-    public float Attack;
-    public float MaxHp;
-    public float curHp;
-    //public float attackSpeed;
-    public float range;
-    public int Money;
-    public int Boom;
-    public int Key;
+    private PlayerStats playerStats;
+ 
 
-    private bool isDamaged = false;
+    private float clipLength;
 
-    /*
-     시간되면 만들것
-    private float Luck;
-    private float ShootSpeed;
-    private float AcitveGage;
-     */
-
-    // Start is called before the first frame update
     void Start()
     {
-/*        TryGetComponent(out animator);
-        TryGetComponent(out playerBody);
-        TryGetComponent(out playerHead);*/
 
-        speed = 0.02f;
-        Attack = 0f;
-        MaxHp = 3f;
-        curHp = 3f;
-        range = 4f;
-        Money = 0;
-        Boom = 50;
-        Key = 0;
-        //attackSpeed = 2f;
+        //애니메이션의 길이를 가져오기 위함
+        Animator playerBodyAnimator = playerBody.GetComponent<Animator>();
+        AnimationClip clip = playerBodyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
+        clipLength = clip.length;
+
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log(isDamaged);
-        if(isDamaged==true)
-        {
-            Debug.Log(playerBody.animator);
-
-            playerBody.animator.SetTrigger("Hit");
-            playerHead.gameObject.SetActive(false);
-            curHp -= 1f;    
-            StartCoroutine(EndDamageMotion_co());
-            isDamaged = false;
-        }
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("BoomDamage"))
+        if (collision.CompareTag("BoomDamage"))  // 폭탄에 닿았을시 데미지
         {
-            isDamaged = true;
-           
+
+            StartCoroutine(TakeDamage_co());
+
         }
     }
-    public void TryAttack()
+    public void TryAttack() //공격메서드
     {
         Instantiate(PlayerTears, transform.position, Quaternion.identity);
     }
 
-    public IEnumerator TryAttack_co(Vector3 dir, float delay)
+    public IEnumerator TryAttack_co(Vector3 dir, float delay) //방향키를 입력한 공격시 코루틴
     {
         while (true)
         {
@@ -87,18 +56,24 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public IEnumerator TryBoom_co()
+    public IEnumerator TryBoom_co() // E키를 눌러 폭탄을 생성
     {
-        Boom--;
+        playerStats.Boom--;
         Instantiate(PlayerBooms, transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.3f);
     }
 
-    public IEnumerator EndDamageMotion_co()
+    public IEnumerator TakeDamage_co()  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
     {
-        yield return new WaitForSeconds(0.4f);
-        playerBody.animator.SetBool("Hit", false);
-        playerHead.gameObject.SetActive(true);
-        
+
+        playerBody.gameObject.SetActive(false);
+        playerHead.animator.SetTrigger("Hit");
+        playerStats.curHp -= 1f;
+        //yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(clipLength + 0.25f);
+        //yield return new WaitForSeconds(0.25f);
+        playerBody.gameObject.SetActive(true);
+        playerHead.animator.SetBool("Hit", false);
+
     }
 }

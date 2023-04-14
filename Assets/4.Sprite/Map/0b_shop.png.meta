@@ -20,6 +20,12 @@ TextureImporter:
   - first:
       213: -5849487459383147923
     second: 0b_shop_5
+  - first:
+      213: -5753254817886097200
+    second: 0b_shop_6
+  - first:
+      213: -1092618040078937799
+    second: 0b_shop_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -125,9 +131,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 312
-        width: 234
-        height: 156
+        y: 367
+        width: 150
+        height: 101
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,10 +151,10 @@ TextureImporter:
       name: 0b_shop_1
       rect:
         serializedVersion: 2
-        x: 234
+        x: 60
         y: 312
-        width: 234
-        height: 156
+        width: 174
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,13 +169,34 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 0b_shop_2
+      name: 0b_shop_6
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 367
+        width: 150
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d03895a9355820b0800000000000000
+      internalID: -5753254817886097200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 0b_shop_7
       rect:
         serializedVersion: 2
         x: 0
-        y: 156
-        width: 234
-        height: 156
+        y: 312
+        width: 150
+        height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,71 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45cb9db1ed7125b90800000000000000
-      internalID: -7254709807023014828
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 0b_shop_3
-      rect:
-        serializedVersion: 2
-        x: 234
-        y: 156
-        width: 234
-        height: 156
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a38d8422f7db94d10800000000000000
-      internalID: 2110426254133483578
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 0b_shop_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 234
-        height: 156
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 19623a08d820e6af0800000000000000
-      internalID: -401380510017575279
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: 0b_shop_5
-      rect:
-        serializedVersion: 2
-        x: 234
-        y: 0
-        width: 234
-        height: 156
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d628d59c52272dea0800000000000000
-      internalID: -5849487459383147923
+      spriteID: 93159e57ead36d0f0800000000000000
+      internalID: -1092618040078937799
       vertices: []
       indices: 
       edges: []

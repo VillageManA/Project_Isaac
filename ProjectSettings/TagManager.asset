@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Wall
   - BoomDamage
+  - LeftDoor
+  - RightDoor
+  - UpDoor
+  - DownDoor
+  - Slot
   layers:
   - Default
   - TransparentFX

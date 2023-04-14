@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHeadControl : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] public Animator animator;
     // Update is called once per frame
     void Update()
     {

@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
     };
 
     [SerializeField] private GameObject player;
+    private PlayerStats playerStats;
     private PlayerControl playerControl;
     [SerializeField] private GameObject PlayerBullet;
     private Movement2D moveMent2D;
@@ -26,6 +27,7 @@ public class InputManager : MonoBehaviour
     private IEnumerator[] coroutine = new IEnumerator[4];
     private void Awake()
     {
+        TryGetComponent(out playerStats);
         TryGetComponent(out playerControl);
         /*        this.moveUp = moveUp;
                 this.moveDown = moveDown;
@@ -38,37 +40,42 @@ public class InputManager : MonoBehaviour
     }
     void Update()
     {
+        // 방향키를 입력하여 움직이는곳
         if (Input.GetKey(KeyCode.W))
         {
-            player.transform.position = new Vector2(player.transform.position.x, player.transform.position.y + playerControl.speed);
+            player.transform.position = new Vector2(player.transform.position.x, player.transform.position.y + playerStats.Speed);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            player.transform.position = new Vector2(player.transform.position.x, player.transform.position.y - playerControl.speed);
+            player.transform.position = new Vector2(player.transform.position.x, player.transform.position.y - playerStats.Speed);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            player.transform.position = new Vector2(player.transform.position.x - playerControl.speed, player.transform.position.y);
+            player.transform.position = new Vector2(player.transform.position.x - playerStats.Speed, player.transform.position.y);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            player.transform.position = new Vector2(player.transform.position.x + playerControl.speed, player.transform.position.y);
+            player.transform.position = new Vector2(player.transform.position.x + playerStats.Speed, player.transform.position.y);
         }
+
+        // E키를 눌러 폭탄을 나오게
         if (Input.GetKey(KeyCode.E)&& !isEKeyPressed)
         {
-            if (playerControl.Boom > 0)
+            if (playerStats.Boom > 0)
             {
                 StartCoroutine(TryBoomDelay_co());
                 StartCoroutine(playerControl.TryBoom_co());
             }
-            //폭탄
         }
+
         /*
         if (Input.GetKey(KeyCode.R))
         {
             //리셋(시간나면함)
         }
         */
+
+        //방향키를 눌러 눈물이 나오게 공격
         if (Input.GetKey(KeyCode.UpArrow) && attackFlg == false)
         {
             attackFlg = true;
@@ -92,7 +99,7 @@ public class InputManager : MonoBehaviour
 
 
         //-----------------------------------//
-
+        //방향키를 뗄시에 공격이 멈추게
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             StopAtt();
@@ -121,7 +128,7 @@ public class InputManager : MonoBehaviour
 
     }
 
-    public void StopAtt()
+    public void StopAtt() //동시에 여러방향 공격을 막는메서드
     {
         playerControl.StopCoroutine(coroutine[0]);
         playerControl.StopCoroutine(coroutine[1]);
@@ -130,7 +137,7 @@ public class InputManager : MonoBehaviour
         attackFlg = false;
     }
 
-    IEnumerator TryBoomDelay_co()
+    IEnumerator TryBoomDelay_co() //폭탄을 한번사용하고 다음 폭탄까지의 대기시간을 주는곳
     {
         isEKeyPressed = true;
 
