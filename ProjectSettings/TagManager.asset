@@ -11,6 +11,7 @@ TagManager:
   - UpDoor
   - DownDoor
   - Slot
+  - PlayerTears
   layers:
   - Default
   - TransparentFX

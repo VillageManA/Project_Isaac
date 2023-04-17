@@ -10,15 +10,17 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private PlayerBodyControl playerBody;
     [SerializeField] private PlayerHeadControl playerHead;
     [SerializeField] private GameObject PlayerTears;
+    [SerializeField] private GameObject PlayerPierceTears;
     [SerializeField] private GameObject PlayerBooms;
+    [SerializeField] private CameraManager Camera;
     private PlayerStats playerStats;
- 
+
 
     private float clipLength;
 
     void Start()
     {
-
+        TryGetComponent(out playerStats);
         //애니메이션의 길이를 가져오기 위함
         Animator playerBodyAnimator = playerBody.GetComponent<Animator>();
         AnimationClip clip = playerBodyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
@@ -37,8 +39,26 @@ public class PlayerControl : MonoBehaviour
         if (collision.CompareTag("BoomDamage"))  // 폭탄에 닿았을시 데미지
         {
 
-            StartCoroutine(TakeDamage_co());
+            StartCoroutine(TakeDamage_co(1f));
 
+        }
+
+
+        if (collision.CompareTag("UpDoor"))
+        {
+            Camera.CameraUpPosition();
+        }
+        if (collision.CompareTag("DownDoor"))
+        {
+            Camera.CameraDownPosition();
+        }
+        if (collision.CompareTag("LeftDoor"))
+        {
+            Camera.CameraLeftPosition();
+        }
+        if (collision.CompareTag("RightDoor"))
+        {
+            Camera.CameraRightPosition();
         }
     }
     public void TryAttack() //공격메서드
@@ -46,11 +66,20 @@ public class PlayerControl : MonoBehaviour
         Instantiate(PlayerTears, transform.position, Quaternion.identity);
     }
 
-    public IEnumerator TryAttack_co(Vector3 dir, float delay) //방향키를 입력한 공격시 코루틴
+    public IEnumerator TryAttack_co(Vector3 dir, float delay, int x, int y, int z) //방향키를 입력한 공격시 코루틴
     {
         while (true)
         {
-            GameObject obj = Instantiate(PlayerTears, transform.position, Quaternion.identity);
+            GameObject obj;
+            if (playerStats.Pierce == 1)
+            {
+                obj = Instantiate(PlayerPierceTears, transform.position, Quaternion.identity);
+                obj.transform.Rotate(x, y, z);
+            }
+            else
+            {
+                obj = Instantiate(PlayerTears, transform.position, Quaternion.identity);
+            }
             obj.GetComponent<Movement2D>().MoveTo(dir);
             yield return new WaitForSeconds(delay);
         }
@@ -63,17 +92,35 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
     }
 
-    public IEnumerator TakeDamage_co()  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
+    public IEnumerator TakeDamage_co(float Damage)  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
     {
-
+        if (playerStats.SoulHp > 0f)
+        {
+            playerStats.SoulHp -= Damage; //1f를 데미지로 바꿀예정
+        }
+        else
+        {
+            playerStats.curHp -= Damage;
+        }
         playerBody.gameObject.SetActive(false);
         playerHead.animator.SetTrigger("Hit");
-        playerStats.curHp -= 1f;
-        //yield return new WaitForSeconds(0.3f);
-        yield return new WaitForSeconds(clipLength + 0.25f);
-        //yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(clipLength + 0.4f);
         playerBody.gameObject.SetActive(true);
         playerHead.animator.SetBool("Hit", false);
 
+    }
+
+    public IEnumerator GetItem_co()  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
+    {
+
+
+        
+        playerBody.gameObject.SetActive(false);
+        playerHead.animator.SetTrigger("GetItem");
+        yield return new WaitForSeconds(clipLength + 0.4f);
+        playerBody.gameObject.SetActive(true);
+        playerHead.animator.SetBool("GetItem", false);
+
+       
     }
 }

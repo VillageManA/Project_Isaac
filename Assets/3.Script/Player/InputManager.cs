@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    };
+ 
 
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject PlayerPierceTears;
     private PlayerStats playerStats;
     private PlayerControl playerControl;
-    [SerializeField] private GameObject PlayerBullet;
     private Movement2D moveMent2D;
     Vector3 moveUp = new Vector3(0, 1, 0);
     Vector3 moveDown = new Vector3(0, -1, 0);
@@ -33,10 +27,10 @@ public class InputManager : MonoBehaviour
                 this.moveDown = moveDown;
                 this.moveLeft = moveLeft;
                 this.moveRight = moveRight;*/
-        coroutine[0] = playerControl.TryAttack_co(moveUp, 0.2f);
-        coroutine[1] = playerControl.TryAttack_co(moveDown, 0.2f);
-        coroutine[2] = playerControl.TryAttack_co(moveLeft, 0.2f);
-        coroutine[3] = playerControl.TryAttack_co(moveRight, 0.2f);
+        coroutine[0] = playerControl.TryAttack_co(moveUp, 0.2f, 0,0,90 );
+        coroutine[1] = playerControl.TryAttack_co(moveDown, 0.2f ,180,0,90);
+        coroutine[2] = playerControl.TryAttack_co(moveLeft, 0.2f , 0,0,180);
+        coroutine[3] = playerControl.TryAttack_co(moveRight, 0.2f, 0,0,0);
     }
     void Update()
     {
@@ -80,6 +74,7 @@ public class InputManager : MonoBehaviour
         {
             attackFlg = true;
             playerControl.StartCoroutine(coroutine[0]);
+
         }
         else if (Input.GetKey(KeyCode.DownArrow) && attackFlg == false)
         {

@@ -84,7 +84,12 @@ public class PlayerStats : MonoBehaviour
             key = Mathf.Clamp(key, 0, 99);
         }
     }
-
+    private int pierce;
+    public int Pierce
+    {
+        get { return pierce; }
+        set { pierce = value; }
+    }
     /*
     시간되면 만들것
    private float Luck;
@@ -98,10 +103,11 @@ public class PlayerStats : MonoBehaviour
         speed = 0.02f;
         Attack = 0f;
         MaxHp = 3f;
-        curHp = 3f;
+        curHp = 3f ;
         range = 4f;
-        Money = 10;
+        Money = 50;
         Boom = 50;
         Key = 0;
+        pierce = 0;
     }
 }

@@ -5,24 +5,29 @@ using UnityEngine;
 public enum EItem
 {
     Coin,
-    Coin5,
-    Coin10,
     Key,
     Bomb,
-    FullHeart,
     HalfHeart,
-    FullSourHeart
+    FullHeart,
+    FullSourHeart,
+    Coin5,
+    Coin10,
+    Dinner,
+    CuppidArrow
+
+
 }
 
 public class Item : MonoBehaviour
 {
-    private PlayerStats Player;
+    private PlayerStats playerStats;
 
     [SerializeField] private EItem itemType;
 
     private void Awake()
     {
-        Player = GameObject.Find("Player").GetComponent<PlayerStats>();
+        playerStats = FindObjectOfType<PlayerStats>();
+        
     }
 
 
@@ -33,45 +38,63 @@ public class Item : MonoBehaviour
             switch (itemType)
             {
                 case EItem.Coin:
-                    Player.Money += 1;
+                    {
+                        playerStats.Money += 1;
+                        Destroy(gameObject);
+                    }
                     break;
                 case EItem.Coin5:
-                    Player.Money += 5;
+                    {
+                        playerStats.Money += 5;
+                        Destroy(gameObject);
+                    }
                     break;
                 case EItem.Coin10:
-                    Player.Money += 10;
+                    {
+                        playerStats.Money += 10;
+                        Destroy(gameObject);
+                    }
                     break;
                 case EItem.Key:
-                    Player.Key += 1;
+                    {
+                        playerStats.Key += 1;
+                        Destroy(gameObject);
+                    }
                     break;
                 case EItem.Bomb:
-                    Player.Boom += 1;
+                    {
+                        playerStats.Boom += 1;
+                        Destroy(gameObject);
+                    }
                     break;
 
                 default:
                     break;
             }
 
-            Destroy(gameObject);
-            if (Player.curHp < 12 && Player.curHp < Player.MaxHp)
+
+            if (playerStats.curHp < 12 && playerStats.curHp < playerStats.MaxHp)
             {
                 switch (itemType)
                 {
                     case EItem.FullHeart:
-                        Player.curHp += 1;
+                        playerStats.curHp += 1;
+                        Destroy(gameObject);
                         break;
                     case EItem.HalfHeart:
-                        Player.curHp += 0.5f;
+                        playerStats.curHp += 0.5f;
+                        Destroy(gameObject);
                         break;
                 }
             }
-            if (Player.MaxHp + Player.SoulHp < 12)
-            switch(itemType)
-            {
-                case EItem.FullSourHeart:
-                    Player.SoulHp += 1;
-                    break;
-            }
+            if (playerStats.MaxHp + playerStats.SoulHp < 12)
+                switch (itemType)
+                {
+                    case EItem.FullSourHeart:
+                        playerStats.SoulHp += 1;
+                        Destroy(gameObject);
+                        break;
+                }
 
         }
     }
