@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum EItem
 {
     Coin,
@@ -20,6 +21,7 @@ public enum EItem
 
 public class Item : MonoBehaviour
 {
+    private HealthUI healthUI;
     private PlayerStats playerStats;
 
     [SerializeField] private EItem itemType;
@@ -27,7 +29,7 @@ public class Item : MonoBehaviour
     private void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
-        
+        healthUI = FindObjectOfType<HealthUI>();
     }
 
 
@@ -78,12 +80,14 @@ public class Item : MonoBehaviour
                 switch (itemType)
                 {
                     case EItem.FullHeart:
-                        playerStats.curHp += 1;
+                        playerStats.GetHp(1f);
                         Destroy(gameObject);
+                        healthUI.UpdateHeart();
                         break;
                     case EItem.HalfHeart:
-                        playerStats.curHp += 0.5f;
+                        playerStats.GetHp(0.5f);
                         Destroy(gameObject);
+                        healthUI.UpdateHeart();
                         break;
                 }
             }
@@ -93,6 +97,7 @@ public class Item : MonoBehaviour
                     case EItem.FullSourHeart:
                         playerStats.SoulHp += 1;
                         Destroy(gameObject);
+                        healthUI.UpdateHeart();
                         break;
                 }
 

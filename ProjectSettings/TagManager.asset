@@ -12,6 +12,7 @@ TagManager:
   - DownDoor
   - Slot
   - PlayerTears
+  - HP
   layers:
   - Default
   - TransparentFX

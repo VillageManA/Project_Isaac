@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject PlayerBooms;
     [SerializeField] private CameraManager Camera;
     private PlayerStats playerStats;
+    private HealthUI healthUI;
 
 
     private float clipLength;
@@ -21,6 +22,7 @@ public class PlayerControl : MonoBehaviour
     void Start()
     {
         TryGetComponent(out playerStats);
+        healthUI = FindObjectOfType<HealthUI>();
         //애니메이션의 길이를 가져오기 위함
         Animator playerBodyAnimator = playerBody.GetComponent<Animator>();
         AnimationClip clip = playerBodyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
@@ -101,12 +103,17 @@ public class PlayerControl : MonoBehaviour
         else
         {
             playerStats.curHp -= Damage;
+            if (playerStats.curHp<0)
+            {
+                playerStats.curHp = 0;
+            }
         }
         playerBody.gameObject.SetActive(false);
         playerHead.animator.SetTrigger("Hit");
         yield return new WaitForSeconds(clipLength + 0.4f);
         playerBody.gameObject.SetActive(true);
         playerHead.animator.SetBool("Hit", false);
+        healthUI.UpdateHeart();
 
     }
 

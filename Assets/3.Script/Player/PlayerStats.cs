@@ -49,8 +49,18 @@ public class PlayerStats : MonoBehaviour
         get { return soulhp; }
         set { soulhp = value; }
     }
-    //public float attackSpeed; 추후 추가될수도있음 샷스피드
-    public float range;
+    private float attackspeed;
+    public float AttackSpeed
+    {
+        get { return attackspeed; }
+        set { attackspeed = value; }
+    }
+    private float range;
+    public float Range
+    {
+        get { return range; }
+        set { range = value; }
+    }
     private int money;
     public int Money
     {
@@ -66,7 +76,7 @@ public class PlayerStats : MonoBehaviour
     public int Boom
     {
         get { return boom; }
-        set 
+        set
         {
             boom = value;
             BombText.text = boom.ToString();
@@ -103,11 +113,24 @@ public class PlayerStats : MonoBehaviour
         speed = 0.02f;
         Attack = 0f;
         MaxHp = 3f;
-        curHp = 3f ;
+        curHp = 3f;
         range = 4f;
         Money = 50;
         Boom = 50;
         Key = 0;
         pierce = 0;
+    }
+
+    public void GetHp(float x)
+    {
+        curhp += x;
+        if (curhp > maxhp)
+        {
+            curhp = maxhp;
+        }
+        if (curhp < 0)
+        {
+            curhp = 0;
+        }
     }
 }

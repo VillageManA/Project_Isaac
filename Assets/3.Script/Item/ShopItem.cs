@@ -7,6 +7,7 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private EItem item;
     private PlayerControl playerControl;
     private Animator animator;
+    private HealthUI helthUI;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject EmptyPedestal;
     [SerializeField] private GameObject CurItem;
@@ -15,6 +16,7 @@ public class ShopItem : MonoBehaviour
     {
         playerStats = FindObjectOfType<PlayerStats>();
         playerControl = FindObjectOfType<PlayerControl>();
+        helthUI = FindObjectOfType<HealthUI>();
 
     }
 
@@ -39,8 +41,9 @@ public class ShopItem : MonoBehaviour
                         if (playerStats.Money >= 3 && playerStats.curHp < playerStats.MaxHp)
                         {
                             playerStats.Money -= 3;
-                            playerStats.curHp += 1;
+                            playerStats.GetHp(1f);
                             Destroy(gameObject);
+                            helthUI.UpdateHeart();
                         }
                     }
                     break;
@@ -51,6 +54,7 @@ public class ShopItem : MonoBehaviour
                             playerStats.Money -= 5;
                             playerStats.SoulHp += 1;
                             Destroy(gameObject);
+                            helthUI.UpdateHeart();
                         }
                     }
                     break;
@@ -61,6 +65,7 @@ public class ShopItem : MonoBehaviour
                             playerStats.Money -= 15;
                             playerStats.MaxHp += 1;
                             playerStats.curHp += 1;
+                            helthUI.UpdateHeart();
                             Destroy(gameObject);
                             Instantiate(EmptyPedestal, transform.position, Quaternion.identity);
                             obj = Instantiate(CurItem, player.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
