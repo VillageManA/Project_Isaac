@@ -13,6 +13,7 @@ TagManager:
   - Slot
   - PlayerTears
   - HP
+  - Monster
   layers:
   - Default
   - TransparentFX
