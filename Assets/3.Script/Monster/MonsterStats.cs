@@ -4,7 +4,32 @@ using UnityEngine;
 
 public class MonsterStats : MonoBehaviour
 {
-    
+
+    private float curhp;
+    public float CurHp
+    {
+        get { return curhp; }
+        set
+        {
+            curhp = value;
+            if (curhp < 0)
+            {
+                curhp = 0;
+            }
+        }
+    }
+
+    private float maxhp;
+    public float MaxHp
+    {
+        get { return maxhp; }
+        set 
+        {
+            maxhp = value;
+        }
+    }
+
+
     /*
      
      BoomFly
