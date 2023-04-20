@@ -14,6 +14,10 @@ TagManager:
   - PlayerTears
   - HP
   - Monster
+  - LeftWall
+  - RightWall
+  - UpWall
+  - DownWall
   layers:
   - Default
   - TransparentFX
@@ -22,10 +26,10 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
-  - 
-  - 
-  - 
+  - LeftWall
+  - RightWall
+  - UpWall
+  - DownWall
   - 
   - 
   - 

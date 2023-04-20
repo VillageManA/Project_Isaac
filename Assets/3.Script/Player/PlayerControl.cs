@@ -40,11 +40,13 @@ public class PlayerControl : MonoBehaviour
     {
         if (collision.CompareTag("BoomDamage"))  // 폭탄에 닿았을시 데미지
         {
-
             StartCoroutine(TakeDamage_co(1f));
-
         }
 
+        if (collision.CompareTag("Monster"))
+        {
+            StartCoroutine(TakeDamage_co(0.5f));
+        }
 
         if (collision.CompareTag("UpDoor"))
         {
@@ -98,7 +100,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (playerStats.SoulHp > 0f)
         {
-            playerStats.SoulHp -= Damage; //1f를 데미지로 바꿀예정
+            playerStats.SoulHp -= Damage;
         }
         else
         {

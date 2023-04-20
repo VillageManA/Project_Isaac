@@ -111,9 +111,10 @@ public class PlayerStats : MonoBehaviour
     {
 
         speed = 0.02f;
-        Attack = 0f;
+        Attack = 5f;
         MaxHp = 3f;
         curHp = 3f;
+        soulhp = 1f;
         range = 4f;
         Money = 50;
         Boom = 50;

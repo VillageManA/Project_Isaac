@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Charger : MonsterStats
 {
-    //private PlayerControl Player;
-    private Animator animator;
-    private Movement2D moveMent2D;
+   
+    
 
 
     private bool IsRayAcitve;
@@ -15,15 +14,17 @@ public class Charger : MonsterStats
     RaycastHit2D LeftRayHit;
     RaycastHit2D RightRayHit;
     LayerMask layerMask;
-    private void Awake()
+    public override void Awake()
     {
-        moveMent2D = GetComponent<Movement2D>();
-        animator = GetComponent<Animator>();
+        base.Awake();
         layerMask = LayerMask.GetMask("Player");
         IsRayAcitve = false;
+        MaxHp = 20f;
+        CurHp = 20f;
     }
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
+        
         if (IsRayAcitve)
         {
             return;
@@ -35,42 +36,75 @@ public class Charger : MonsterStats
 
         if (UpRayHit)
         {
+            StopMove();
             moveMent2D.MoveTo(Vector3.up);
             animator.SetTrigger("UpDash");
+            moveMent2D.moveSpeed = 5f;
             IsRayAcitve = true;
+            isActive = true; 
         }
         if (DownRayHit)
         {
+            StopMove();
             moveMent2D.MoveTo(Vector3.down);
+            moveMent2D.moveSpeed = 5f;
             animator.SetTrigger("DownDash");
             IsRayAcitve = true;
+            isActive = true;
         }
         if (LeftRayHit)
         {
+            StopMove();
             transform.Rotate(0, 180, 0);
             moveMent2D.MoveTo(Vector3.left);
+            moveMent2D.moveSpeed = 5f;
             animator.SetTrigger("LeftDash");
             IsRayAcitve = true;
+            isActive = true;
         }
         if (RightRayHit)
         {
+            StopMove();
             moveMent2D.MoveTo(Vector3.right);
+            moveMent2D.moveSpeed = 5f;
             animator.SetTrigger("RightDash");
             IsRayAcitve = true;
+            isActive = true;
         }
 
 
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        base.OnTriggerEnter2D(collision);
         if (collision.CompareTag("Wall"))
         {
             moveMent2D.MoveTo(Vector3.zero);
+            moveMent2D.moveSpeed = 2f;
             animator.SetTrigger("StopDash");
             IsRayAcitve = false;
+            isActive = false;
             transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        if (collision.CompareTag("PlayerTears"))
+        {
+            CurHp -= playerStats.Attack;
+            Debug.Log(CurHp);
+            if (CurHp<=0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        if (collision.CompareTag("BoomDamage"))
+        {
+            CurHp -= 5;
+            if (CurHp<=0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

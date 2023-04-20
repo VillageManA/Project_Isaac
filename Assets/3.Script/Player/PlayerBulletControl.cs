@@ -12,22 +12,22 @@ public class PlayerBulletControl : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.CompareTag("Enemy"))
-        //{
-        //    //적의체력 -1;
+        if (collision.CompareTag("Monster"))
+        {
+            //적의체력 -1;
 
-        //    if(playerStats.Pierce==1)
-        //    {
+            StartCoroutine(TearAnimaion());
+            //if (playerStats.Pierce == 1)
+            //{
 
-        //    }
-        //    else
-        //    {
-        //        animator.SetBool("Hit", true);
-        //        Destroy(gameObject);
-        //    }
+            //}
+            //else
+            //{
+            //    StartCoroutine(TearAnimaion());
+            //}
 
 
-        //}
+        }
 
         if (collision.CompareTag("Wall"))
         {

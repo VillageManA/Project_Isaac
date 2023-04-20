@@ -6,7 +6,7 @@ public class MonsterStats : MonoBehaviour
 {
 
     private float curhp;
-    public float CurHp
+    public virtual float CurHp
     {
         get { return curhp; }
         set
@@ -16,20 +16,188 @@ public class MonsterStats : MonoBehaviour
             {
                 curhp = 0;
             }
+
         }
     }
 
     private float maxhp;
-    public float MaxHp
+    public virtual float MaxHp
     {
         get { return maxhp; }
-        set 
+        set
         {
             maxhp = value;
         }
     }
+    private float speed;
+    public virtual float Speed
+    {
+        get { return speed; }
+        set
+        {
+            speed = value;
+        }
+    }
+
+    protected bool isActive;
+    protected bool isMove;
+    protected int move;
+    protected Animator animator;
+    protected Movement2D moveMent2D;
+    protected PlayerStats playerStats;
+    protected float Delay; //방향바꾸는 최소딜레이시간
+    protected bool isLeftWall;
+    protected bool isRightWall;
+    protected bool isUpWall;
+    protected bool isDownWall;
+    public virtual void Awake()
+    {
+        playerStats = FindObjectOfType<PlayerStats>();
+        moveMent2D = GetComponent<Movement2D>();
+        animator = GetComponent<Animator>();
+        speed = 2;
+        isActive = false;
+        Delay = 1f;
+    }
+    public virtual void LateUpdate()
+    {
+        if (isActive || isMove) //다른행동을 하지않을때 움직이기위함 , 움직이고있을때 딜레이를 주기위함
+        {
+            return;
+        }
+
+        if (isLeftWall) 
+        {
+            RightMove();
+            
+        }
+        else if (isRightWall)
+        {
+            LeftMove();
+            
+        }
+        else if (isUpWall)
+        {
+            DownMove();
+            
+        }
+        else if (isDownWall)
+        {
+            UpMove();
+           
+        }
+        else
+        {
+            move = Random.Range(0, 4); //벽에 닿지않았을시 어느 방향으로갈지 랜덤으로 정함
+            switch (move)
+            {
+                case 0:
+                    {
+                        UpMove();
+
+                    }
+                    break;
+                case 1:
+                    {
+
+                        DownMove();
+
+                    }
+                    break;
+                case 2:
+                    {
+                        LeftMove();
 
 
+                    }
+                    break;
+                case 3:
+                    {
+                        RightMove();
+
+                    }
+                    break;
+            }
+        }
+        ResetWallBool();
+        isMove = true;
+        Invoke(nameof(MoveDelay), 0.5f); // 0.5초마다  ismove를 false로 바꿔서 움직일수있게함
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("LeftWall"))
+        {
+            isLeftWall = true;
+            Debug.Log(isLeftWall);
+        }
+        if (collision.CompareTag("RightWall"))
+        {
+            isRightWall = true;
+            Debug.Log(isRightWall);
+        }
+        if (collision.CompareTag("UpWall"))
+        {
+            isUpWall = true;
+            Debug.Log(isUpWall);
+        }
+        if (collision.CompareTag("DownWall"))
+        {
+            isDownWall = true;
+            Debug.Log(isDownWall);
+        }
+
+    }
+
+    public virtual void StopMove()
+    {
+        animator.SetBool("UpWalk", false);
+        animator.SetBool("DownWalk", false);
+        animator.SetBool("LeftWalk", false);
+        animator.SetBool("RightWalk", false);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+        moveMent2D.MoveTo(Vector3.zero);
+        animator.SetBool("StopDash", false);
+    }
+
+    public void MoveDelay()
+    {
+        isMove = false;
+    }
+
+    public void LeftMove()
+    {
+        StopMove();
+        animator.SetBool("LeftWalk", true);
+        moveMent2D.MoveTo(Vector3.left);
+        transform.Rotate(0, 180, 0);
+    }
+    public void RightMove()
+    {
+        StopMove();
+        animator.SetBool("RightWalk", true);
+        moveMent2D.MoveTo(Vector3.right);
+    }
+
+    public void UpMove()
+    {
+        StopMove();
+        animator.SetBool("UpWalk", true);
+        moveMent2D.MoveTo(Vector3.up);
+    }
+    public void DownMove()
+    {
+        StopMove();
+        animator.SetBool("DownWalk", true);
+        moveMent2D.MoveTo(Vector3.down);
+    }
+    public void ResetWallBool()
+    {
+        isUpWall = false;
+        isDownWall = false;
+        isLeftWall = false;
+        isRightWall = false;
+    }
     /*
      
      BoomFly
