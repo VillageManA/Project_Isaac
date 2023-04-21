@@ -55,80 +55,24 @@ public class DukeOffilies : MonoBehaviour
         Movedealy += Time.deltaTime;
         if (isLeftWall)
         {
-            randomMove = Random.Range(0, 1);
-            switch (randomMove)
-            {
-                case 0:
-                    {
-                        RightUpMove();
-                        ResetBool();
-                    }
-                    break;
-                case 1:
-                    {
-                        RightDownMove();
-                        ResetBool();
-                    }
-                    break;
-            }
+            RightDownMove();
+            ResetBool();
             
         }
         else if (isRightWall)
         {
-            randomMove = Random.Range(0, 1);
-            switch (randomMove)
-            {
-                case 0:
-                    {
-                        LeftUpMove();
-                        ResetBool();
-                    }
-                    break;
-                case 1:
-                    {
-                        LeftDownMove();
-                        ResetBool();
-                    }
-                    break;
-            }
+            LeftUpMove();
+            ResetBool();
         }
         else if (isDownWall)
         {
-            randomMove = Random.Range(0, 1);
-            switch (randomMove)
-            {
-                case 0:
-                    {
-                        LeftUpMove();
-                        ResetBool();
-                    }
-                    break;
-                case 1:
-                    {
-                        RightUpMove();
-                        ResetBool();
-                    }
-                    break;
-            }
+            RightUpMove();
+            ResetBool();
         }
         else if (isUpWall)
         {
-            randomMove = Random.Range(0, 1);
-            switch (randomMove)
-            {
-                case 0:
-                    {
-                        LeftDownMove();
-                        ResetBool();
-                    }
-                    break;
-                case 1:
-                    {
-                        RightDownMove();
-                        ResetBool();
-                    }
-                    break;
-            }
+            LeftDownMove();
+            ResetBool();
         }
 
         if (isMove || Movedealy<3f)
