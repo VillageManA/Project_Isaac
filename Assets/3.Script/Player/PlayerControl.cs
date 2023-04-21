@@ -43,12 +43,17 @@ public class PlayerControl : MonoBehaviour
             StartCoroutine(TakeDamage_co(1f));
         }
 
-        if (collision.CompareTag("Monster"))
+        if (collision.CompareTag("Monster")) // 몬스터와 피격시
         {
             StartCoroutine(TakeDamage_co(0.5f));
         }
 
-        if (collision.CompareTag("UpDoor"))
+        if (collision.CompareTag("EnemyTears")) //몬스터의 눈물과 피격시
+        {
+            StartCoroutine(TakeDamage_co(0.5f));
+        }
+
+        if (collision.CompareTag("UpDoor"))  //맵이동
         {
             Camera.CameraUpPosition();
         }

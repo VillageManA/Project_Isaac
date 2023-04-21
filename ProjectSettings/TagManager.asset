@@ -18,6 +18,7 @@ TagManager:
   - RightWall
   - UpWall
   - DownWall
+  - EnemyTears
   layers:
   - Default
   - TransparentFX

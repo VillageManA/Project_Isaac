@@ -20,15 +20,6 @@ public class MonsterStats : MonoBehaviour
         }
     }
 
-    private float maxhp;
-    public virtual float MaxHp
-    {
-        get { return maxhp; }
-        set
-        {
-            maxhp = value;
-        }
-    }
     private float speed;
     public virtual float Speed
     {
@@ -66,22 +57,22 @@ public class MonsterStats : MonoBehaviour
             return;
         }
 
-        if (isLeftWall) 
+        if (isLeftWall)  // 왼쪽벽과 닿았을시 오른쪽으로 이동
         {
             RightMove();
             
         }
-        else if (isRightWall)
+        else if (isRightWall) // 오른쪽벽과 닿았을시 왼쪽으로 이동
         {
             LeftMove();
             
         }
-        else if (isUpWall)
+        else if (isUpWall) // 위쪽벽과 닿을시 아래로이동
         {
             DownMove();
             
         }
-        else if (isDownWall)
+        else if (isDownWall) // 아래벽과 닿을시 위로이동
         {
             UpMove();
            
@@ -119,37 +110,33 @@ public class MonsterStats : MonoBehaviour
                     break;
             }
         }
-        ResetWallBool();
+        ResetWallBool(); 
         isMove = true;
         Invoke(nameof(MoveDelay), 0.5f); // 0.5초마다  ismove를 false로 바꿔서 움직일수있게함
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision) //벽과 닿을시 확인해주는 bool값 설정
     {
         if (collision.CompareTag("LeftWall"))
         {
             isLeftWall = true;
-            Debug.Log(isLeftWall);
         }
         if (collision.CompareTag("RightWall"))
         {
             isRightWall = true;
-            Debug.Log(isRightWall);
         }
         if (collision.CompareTag("UpWall"))
         {
             isUpWall = true;
-            Debug.Log(isUpWall);
         }
         if (collision.CompareTag("DownWall"))
         {
-            isDownWall = true;
-            Debug.Log(isDownWall);
+            isDownWall = true;            
         }
 
     }
 
-    public virtual void StopMove()
+    public virtual void StopMove() //다음 이동전에 기존의 이동을 멈춤
     {
         animator.SetBool("UpWalk", false);
         animator.SetBool("DownWalk", false);
@@ -160,38 +147,38 @@ public class MonsterStats : MonoBehaviour
         animator.SetBool("StopDash", false);
     }
 
-    public void MoveDelay()
+    public void MoveDelay() // 방향 전환 딜레이를 주기위한 bool값 설정
     {
         isMove = false;
     }
 
-    public void LeftMove()
+    public void LeftMove() //왼쪽이동시 오른쪽이동 모션을 로테이트돌려 왼쪽모션처럼
     {
         StopMove();
         animator.SetBool("LeftWalk", true);
         moveMent2D.MoveTo(Vector3.left);
         transform.Rotate(0, 180, 0);
     }
-    public void RightMove()
+    public void RightMove() //오른쪽이동
     {
         StopMove();
         animator.SetBool("RightWalk", true);
         moveMent2D.MoveTo(Vector3.right);
     }
 
-    public void UpMove()
+    public void UpMove() // 위로이동
     {
         StopMove();
         animator.SetBool("UpWalk", true);
         moveMent2D.MoveTo(Vector3.up);
     }
-    public void DownMove()
+    public void DownMove() //아래로이동
     {
         StopMove();
         animator.SetBool("DownWalk", true);
         moveMent2D.MoveTo(Vector3.down);
     }
-    public void ResetWallBool()
+    public void ResetWallBool() // 한번 이동이 끝나면 벽에닿았는지 확인하는 bool값을 리셋
     {
         isUpWall = false;
         isDownWall = false;

@@ -19,7 +19,6 @@ public class Charger : MonsterStats
         base.Awake();
         layerMask = LayerMask.GetMask("Player");
         IsRayAcitve = false;
-        MaxHp = 20f;
         CurHp = 20f;
     }
     public void FixedUpdate()
