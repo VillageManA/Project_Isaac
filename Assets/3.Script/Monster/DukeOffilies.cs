@@ -10,6 +10,8 @@ public class DukeOffilies : MonoBehaviour
     private Animator animator;
     private PlayerControl player;
     private Movement2D moveMent2D;
+    private PlayerStats playerStats;
+
 
     private WaitForSeconds wfs;
     private WaitForSeconds TearDelay;
@@ -29,6 +31,19 @@ public class DukeOffilies : MonoBehaviour
     private bool isUpWall;
     private bool isDownWall;
     private float Movedealy;
+    private float curhp;
+    public float CurHp
+    {
+        get { return curhp; }
+        set
+        {
+            curhp = value;
+            if(curhp<0)
+            {
+                curhp = 0;
+            }
+        }
+    }
     private void Awake()
     {
         wfs = new WaitForSeconds(1f);
@@ -37,6 +52,7 @@ public class DukeOffilies : MonoBehaviour
         summon = new Vector3(0, -0.5f, 0);
         animator = GetComponent<Animator>();
         player = FindObjectOfType<PlayerControl>();
+        playerStats = FindObjectOfType<PlayerStats>();
         moveMent2D = GetComponent<Movement2D>();
         isMove = false;
         isLeftWall = false;
@@ -47,6 +63,7 @@ public class DukeOffilies : MonoBehaviour
         LeftDown = new Vector3(-1, -1, 0);
         RightUp = new Vector3(1, 1, 0);
         RightDown = new Vector3(1, -1, 0);
+        CurHp = 110f;
     }
 
     private void FixedUpdate()
@@ -228,6 +245,11 @@ public class DukeOffilies : MonoBehaviour
     {
         moveMent2D.MoveTo(RightDown);
     }
+    public void Dead()
+    {
+        Destroy(gameObject);
+        // 보스방클리어 +1
+    }
     private void OnTriggerEnter2D(Collider2D collision) //벽과 닿을시 확인해주는 bool값 설정
     {
         if (collision.CompareTag("LeftWall"))
@@ -247,6 +269,24 @@ public class DukeOffilies : MonoBehaviour
             isDownWall = true;
         }
 
+        if (collision.CompareTag("PlayerTears"))
+        {
+            CurHp -= playerStats.Attack;
+            if (curhp == 0)
+            {
+                Dead();
+            }
+        }
+        if (collision.CompareTag("BoomDamage"))
+        {
+            CurHp -= 5f;
+            if (curhp==0)
+            {
+                Dead();
+            }
+
+        }
     }
+
 
 }

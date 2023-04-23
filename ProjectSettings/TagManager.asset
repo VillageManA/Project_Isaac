@@ -19,6 +19,7 @@ TagManager:
   - UpWall
   - DownWall
   - EnemyTears
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -14,7 +14,19 @@ public enum EItem
     Coin5,
     Coin10,
     Dinner,
-    CuppidArrow
+    CuppidArrow,
+    MagicMushRoom,
+    WireCoatHanger,
+    MiniMush,
+    MoneyEqualPower,
+    Sqeezuy,
+    TheWafer,
+    SadOnion,
+    ToothPicks,
+    MutantSpider,
+    Polyphemus,
+    Pyro
+
 
 
 }

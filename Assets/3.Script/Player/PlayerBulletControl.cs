@@ -20,6 +20,11 @@ public class PlayerBulletControl : MonoBehaviour
         {
             StartCoroutine(TearAnimaion());
         }
+
+        if( collision.CompareTag("Boss"))
+        {
+            StartCoroutine(TearAnimaion());
+        }
     }
 
     public IEnumerator TearAnimaion() // 물체와 닿았을시 애니메이션과 눈물삭제
