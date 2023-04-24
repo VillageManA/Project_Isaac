@@ -21,7 +21,7 @@ public class PlayerBulletControl : MonoBehaviour
             StartCoroutine(TearAnimaion());
         }
 
-        if( collision.CompareTag("Boss"))
+        if( collision.CompareTag("Boss")) // 보스와 닿았을시
         {
             StartCoroutine(TearAnimaion());
         }

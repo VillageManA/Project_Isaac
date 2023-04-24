@@ -13,13 +13,18 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject PlayerPierceTears;
     [SerializeField] private GameObject PlayerBooms;
     [SerializeField] private CameraManager Camera;
+    [SerializeField] private GameObject DeadUI;
+    
     private PlayerStats playerStats;
     private HealthUI healthUI;
 
-
+    private WaitForSeconds ColorDelay;
     private float clipLength;
+    private Color opaque;
+    private Color transparent;
 
-    void Start()
+
+    void Awake()
     {
         TryGetComponent(out playerStats);
         healthUI = FindObjectOfType<HealthUI>();
@@ -27,14 +32,14 @@ public class PlayerControl : MonoBehaviour
         Animator playerBodyAnimator = playerBody.GetComponent<Animator>();
         AnimationClip clip = playerBodyAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
         clipLength = clip.length;
-
-
-    }
-
-    void Update()
-    {
+        ColorDelay = new WaitForSeconds(0.08f);
+        transparent = new Color(1, 1, 1, 0);
+        opaque = new Color(1, 1, 1, 1);
+        DeadUI.SetActive(false);
 
     }
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -47,7 +52,10 @@ public class PlayerControl : MonoBehaviour
         {
             StartCoroutine(TakeDamage_co(0.5f));
         }
-
+        if (collision.CompareTag("Boss")) // 보스와 피격시
+        {
+            StartCoroutine(TakeDamage_co(0.5f));
+        }
         if (collision.CompareTag("EnemyTears")) //몬스터의 눈물과 피격시
         {
             StartCoroutine(TakeDamage_co(0.5f));
@@ -75,7 +83,7 @@ public class PlayerControl : MonoBehaviour
         Instantiate(PlayerTears, transform.position, Quaternion.identity);
     }
 
-    public IEnumerator TryAttack_co(Vector3 dir, float delay, int x, int y, int z) //방향키를 입력한 공격시 코루틴
+    public IEnumerator TryAttack_co(Vector3 dir, int x, int y, int z) //방향키를 입력한 공격시 코루틴
     {
         while (true)
         {
@@ -90,7 +98,7 @@ public class PlayerControl : MonoBehaviour
                 obj = Instantiate(PlayerTears, transform.position, Quaternion.identity);
             }
             obj.GetComponent<Movement2D>().MoveTo(dir);
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(0.8f - playerStats.AttackSpeed);
         }
     }
 
@@ -103,6 +111,7 @@ public class PlayerControl : MonoBehaviour
 
     public IEnumerator TakeDamage_co(float Damage)  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
     {
+        GetComponent<CircleCollider2D>().enabled = false; //피격시 무적
         if (playerStats.SoulHp > 0f)
         {
             playerStats.SoulHp -= Damage;
@@ -110,17 +119,49 @@ public class PlayerControl : MonoBehaviour
         else
         {
             playerStats.curHp -= Damage;
-            if (playerStats.curHp<0)
+            if (playerStats.curHp < 0)
             {
                 playerStats.curHp = 0;
             }
         }
+        healthUI.UpdateHeart();
         playerBody.gameObject.SetActive(false);
+
+        if (playerStats.curHp == 0)
+        {
+            playerHead.animator.SetTrigger("Dead");
+            yield return new WaitForSeconds(2f);
+            DeadUI.SetActive(true);
+        }
+
         playerHead.animator.SetTrigger("Hit");
         yield return new WaitForSeconds(clipLength + 0.4f);
         playerBody.gameObject.SetActive(true);
         playerHead.animator.SetBool("Hit", false);
-        healthUI.UpdateHeart();
+        playerHead.GetComponent<SpriteRenderer>().color = opaque; //피격시 무적시간동안 케릭터 번쩍임
+        playerBody.GetComponent<SpriteRenderer>().color = opaque;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = transparent;
+        playerBody.GetComponent<SpriteRenderer>().color = transparent;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = opaque;
+        playerBody.GetComponent<SpriteRenderer>().color = opaque;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = transparent;
+        playerBody.GetComponent<SpriteRenderer>().color = transparent;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = opaque;
+        playerBody.GetComponent<SpriteRenderer>().color = opaque;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = transparent;
+        playerBody.GetComponent<SpriteRenderer>().color = transparent;
+        yield return ColorDelay;
+        playerHead.GetComponent<SpriteRenderer>().color = opaque;
+        playerBody.GetComponent<SpriteRenderer>().color = opaque;
+
+
+
+        GetComponent<CircleCollider2D>().enabled = true; //무적풀림
 
     }
 
@@ -128,13 +169,14 @@ public class PlayerControl : MonoBehaviour
     {
 
 
-        
+
         playerBody.gameObject.SetActive(false);
         playerHead.animator.SetTrigger("GetItem");
         yield return new WaitForSeconds(clipLength + 0.4f);
         playerBody.gameObject.SetActive(true);
         playerHead.animator.SetBool("GetItem", false);
 
-       
+
     }
+
 }

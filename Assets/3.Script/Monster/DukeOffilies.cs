@@ -11,6 +11,7 @@ public class DukeOffilies : MonoBehaviour
     private PlayerControl player;
     private Movement2D moveMent2D;
     private PlayerStats playerStats;
+    private CameraConfirm camConfirm;
 
 
     private WaitForSeconds wfs;
@@ -44,6 +45,7 @@ public class DukeOffilies : MonoBehaviour
             }
         }
     }
+    public float maxHp;
     private void Awake()
     {
         wfs = new WaitForSeconds(1f);
@@ -54,6 +56,7 @@ public class DukeOffilies : MonoBehaviour
         player = FindObjectOfType<PlayerControl>();
         playerStats = FindObjectOfType<PlayerStats>();
         moveMent2D = GetComponent<Movement2D>();
+        camConfirm = FindObjectOfType<CameraConfirm>();
         isMove = false;
         isLeftWall = false;
         isRightWall = false;
@@ -64,6 +67,9 @@ public class DukeOffilies : MonoBehaviour
         RightUp = new Vector3(1, 1, 0);
         RightDown = new Vector3(1, -1, 0);
         CurHp = 110f;
+        maxHp = 110f;
+        gameObject.SetActive(false);
+        LeftDownMove();
     }
 
     private void FixedUpdate()
@@ -183,38 +189,40 @@ public class DukeOffilies : MonoBehaviour
     }
     private IEnumerator Attack_co()
     {
-        Debug.Log("알아서쏨");
+        animator.SetTrigger("3Attack");
+        yield return wfs;
         Attack();
         yield return wfs;
         DiagonalAttack();
         yield return wfs;
         Attack();
         yield return wfs;
+        yield return wfs;
+        
         isAttack = false;
     }
     private IEnumerator Summon_co()
     {
-        Debug.Log("소환함");
-        //animator.SetTrigger("Summon");
+        animator.SetTrigger("Summon");
+        yield return wfs;
         Instantiate(Sucker, transform.position + summon, Quaternion.identity);
         yield return wfs;
         isAttack = false;
     }
     private IEnumerator AttackToplayer_co()
     {
-        Debug.Log("눈물쏨");
-        Debug.Log(playerPosition);
+        animator.SetTrigger("Attack");
         Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);
         Tearsobj.GetComponent<Movement2D>().MoveTo(playerPosition - transform.position);
-        Tearsobj.GetComponent<Movement2D>().moveSpeed = 2f;
+        Tearsobj.GetComponent<Movement2D>().moveSpeed = 1f;
         yield return TearDelay;
         Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);
         Tearsobj.GetComponent<Movement2D>().MoveTo(playerPosition - transform.position);
-        Tearsobj.GetComponent<Movement2D>().moveSpeed = 2f;
+        Tearsobj.GetComponent<Movement2D>().moveSpeed = 1f;
         yield return TearDelay;
         Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);
         Tearsobj.GetComponent<Movement2D>().MoveTo(playerPosition - transform.position);
-        Tearsobj.GetComponent<Movement2D>().moveSpeed = 2f;
+        Tearsobj.GetComponent<Movement2D>().moveSpeed = 1f;
 
         yield return wfs;
 
@@ -247,12 +255,12 @@ public class DukeOffilies : MonoBehaviour
     }
     public void Dead()
     {
-        Destroy(gameObject);
-        // 보스방클리어 +1
+        camConfirm.BossNum = 2;
+        Destroy(gameObject);        
     }
     private void OnTriggerEnter2D(Collider2D collision) //벽과 닿을시 확인해주는 bool값 설정
     {
-        if (collision.CompareTag("LeftWall"))
+        if (collision.CompareTag("LeftWall") || collision.CompareTag("Door"))
         {
             isLeftWall = true;
         }
@@ -274,6 +282,7 @@ public class DukeOffilies : MonoBehaviour
             CurHp -= playerStats.Attack;
             if (curhp == 0)
             {
+
                 Dead();
             }
         }
@@ -282,6 +291,7 @@ public class DukeOffilies : MonoBehaviour
             CurHp -= 5f;
             if (curhp==0)
             {
+
                 Dead();
             }
 

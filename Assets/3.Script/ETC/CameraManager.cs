@@ -5,7 +5,11 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-
+    private CameraConfirm camConfirn;
+    private void Awake()
+    {
+        camConfirn = FindObjectOfType<CameraConfirm>();
+    }
     public void CameraLeftPosition()
     {
         transform.position += new Vector3(-22, 0, 0);

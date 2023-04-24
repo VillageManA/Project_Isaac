@@ -53,7 +53,14 @@ public class PlayerStats : MonoBehaviour
     public float AttackSpeed
     {
         get { return attackspeed; }
-        set { attackspeed = value; }
+        set 
+        { 
+            attackspeed = value;
+            if (attackspeed>0.6f)
+            {
+                attackspeed = 0.6f;
+            }
+        }
     }
     private float range;
     public float Range
@@ -106,20 +113,30 @@ public class PlayerStats : MonoBehaviour
    private float ShootSpeed;
    private float AcitveGage;
     */
-
+    private bool isdead;
+    public bool IsDead
+    {
+        get { return isdead; }
+        set
+        {
+            isdead = value;
+        }
+    }
     private void Awake()
     {
 
         speed = 0.02f;
-        Attack = 5f;
+        Attack = 30f;
         MaxHp = 3f;
         curHp = 3f;
         soulhp = 1f;
         range = 4f;
         Money = 50;
         Boom = 50;
-        Key = 0;
+        Key = 2;
         pierce = 0;
+        AttackSpeed = 0f;
+        IsDead = false;
     }
 
     public void GetHp(float x)
@@ -134,4 +151,6 @@ public class PlayerStats : MonoBehaviour
             curhp = 0;
         }
     }
+
+   
 }

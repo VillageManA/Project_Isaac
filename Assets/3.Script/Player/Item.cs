@@ -53,32 +53,47 @@ public class Item : MonoBehaviour
             {
                 case EItem.Coin:
                     {
-                        playerStats.Money += 1;
-                        Destroy(gameObject);
+                        if (playerStats.Money < 99)
+                        {
+                            playerStats.Money += 1;
+                            Destroy(gameObject);
+                        }
                     }
                     break;
                 case EItem.Coin5:
                     {
-                        playerStats.Money += 5;
-                        Destroy(gameObject);
+                        if (playerStats.Money < 99)
+                        {
+                            playerStats.Money += 5;
+                            Destroy(gameObject);
+                        }
                     }
                     break;
                 case EItem.Coin10:
                     {
-                        playerStats.Money += 10;
-                        Destroy(gameObject);
+                        if (playerStats.Money < 99)
+                        {
+                            playerStats.Money += 10;
+                            Destroy(gameObject);
+                        }
                     }
                     break;
                 case EItem.Key:
                     {
-                        playerStats.Key += 1;
-                        Destroy(gameObject);
+                        if (playerStats.Key < 99)
+                        {
+                            playerStats.Key += 1;
+                            Destroy(gameObject);
+                        }
                     }
                     break;
                 case EItem.Bomb:
                     {
-                        playerStats.Boom += 1;
-                        Destroy(gameObject);
+                        if (playerStats.Boom < 99)
+                        {
+                            playerStats.Boom += 1;
+                            Destroy(gameObject);
+                        }
                     }
                     break;
 

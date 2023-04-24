@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
- 
+
 
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject PlayerPierceTears;
@@ -23,14 +24,10 @@ public class InputManager : MonoBehaviour
     {
         TryGetComponent(out playerStats);
         TryGetComponent(out playerControl);
-        /*        this.moveUp = moveUp;
-                this.moveDown = moveDown;
-                this.moveLeft = moveLeft;
-                this.moveRight = moveRight;*/
-        coroutine[0] = playerControl.TryAttack_co(moveUp, 0.2f, 0,0,90 );
-        coroutine[1] = playerControl.TryAttack_co(moveDown, 0.2f ,180,0,90);
-        coroutine[2] = playerControl.TryAttack_co(moveLeft, 0.2f , 0,0,180);
-        coroutine[3] = playerControl.TryAttack_co(moveRight, 0.2f, 0,0,0);
+        coroutine[0] = playerControl.TryAttack_co(moveUp, 0, 0, 90);
+        coroutine[1] = playerControl.TryAttack_co(moveDown, 180, 0, 90);
+        coroutine[2] = playerControl.TryAttack_co(moveLeft, 0, 0, 180);
+        coroutine[3] = playerControl.TryAttack_co(moveRight, 0, 0, 0);
     }
     void Update()
     {
@@ -53,7 +50,7 @@ public class InputManager : MonoBehaviour
         }
 
         // EÅ°¸¦ ´­·¯ ÆøÅºÀ» ³ª¿À°Ô
-        if (Input.GetKey(KeyCode.E)&& !isEKeyPressed)
+        if (Input.GetKey(KeyCode.E) && !isEKeyPressed)
         {
             if (playerStats.Boom > 0)
             {
@@ -98,28 +95,37 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             StopAtt();
-            
+
         }
 
         if (Input.GetKeyUp(KeyCode.DownArrow))
         {
             StopAtt();
-         
+
         }
 
         if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             StopAtt();
-            
+
         }
 
         if (Input.GetKeyUp(KeyCode.RightArrow))
         {
             StopAtt();
-          
+
         }
 
-
+        if (Input.GetKeyDown(KeyCode.Space) && playerStats.IsDead)
+        {
+            playerStats.IsDead = false;
+            SceneManager.LoadScene("Stage1");
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && playerStats.IsDead)
+        {
+            playerStats.IsDead = false;
+            SceneManager.LoadScene("Intro");
+        }
 
     }
 

@@ -20,6 +20,7 @@ TagManager:
   - DownWall
   - EnemyTears
   - Boss
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -49,8 +50,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Camera
+  - Enemy
   - 
   - 
   m_SortingLayers:

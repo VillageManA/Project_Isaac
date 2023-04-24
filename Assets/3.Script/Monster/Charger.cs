@@ -91,7 +91,6 @@ public class Charger : MonsterStats
         if (collision.CompareTag("PlayerTears"))
         {
             CurHp -= playerStats.Attack;
-            Debug.Log(CurHp);
             if (CurHp<=0)
             {
                 Destroy(gameObject);
