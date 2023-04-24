@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerControl : MonoBehaviour
@@ -14,9 +15,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject PlayerBooms;
     [SerializeField] private CameraManager Camera;
     [SerializeField] private GameObject DeadUI;
+    [SerializeField] private GameObject Ghost;
     
     private PlayerStats playerStats;
     private HealthUI healthUI;
+    private GameObject obj;
 
     private WaitForSeconds ColorDelay;
     private float clipLength;
@@ -59,6 +62,10 @@ public class PlayerControl : MonoBehaviour
         if (collision.CompareTag("EnemyTears")) //몬스터의 눈물과 피격시
         {
             StartCoroutine(TakeDamage_co(0.5f));
+        }
+        if (collision.CompareTag("NextDoor"))
+        {
+            SceneManager.LoadScene("Out");
         }
 
         if (collision.CompareTag("UpDoor"))  //맵이동
@@ -129,9 +136,15 @@ public class PlayerControl : MonoBehaviour
 
         if (playerStats.curHp == 0)
         {
+            
             playerHead.animator.SetTrigger("Dead");
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.6f);
+            obj = Instantiate(Ghost, transform.position, Quaternion.identity);
+            obj.transform.position = player.transform.position;
+            yield return new WaitForSeconds(0.4f);
+            Destroy(obj);
             DeadUI.SetActive(true);
+            playerStats.IsDead = true;
         }
 
         playerHead.animator.SetTrigger("Hit");
@@ -179,4 +192,5 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+    
 }

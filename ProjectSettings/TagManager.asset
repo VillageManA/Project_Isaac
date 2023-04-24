@@ -21,6 +21,7 @@ TagManager:
   - EnemyTears
   - Boss
   - Door
+  - NextDoor
   layers:
   - Default
   - TransparentFX

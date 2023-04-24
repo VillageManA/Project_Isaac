@@ -15,6 +15,7 @@ public class RewardItem : MonoBehaviour
     [SerializeField] private GameObject Sqeezuy;
     [SerializeField] private GameObject ToothPicks;
     [SerializeField] private GameObject Pyro;
+    [SerializeField] private GameObject NextDoor;
     [SerializeField] private GameObject Empty;
 
     private Vector3 emptyVector;
@@ -22,6 +23,7 @@ public class RewardItem : MonoBehaviour
 
     private void Awake()
     {
+        NextDoor.SetActive(false);
         camConfirm = FindObjectOfType<CameraConfirm>();
         emptyVector = new Vector3(transform.position.x, transform.position.y - 1.32f);
     }
@@ -36,6 +38,7 @@ public class RewardItem : MonoBehaviour
         {
             ItemCreate();
             camConfirm.BossNum = 3;
+            NextDoor.SetActive(true);
         }
 
     }
