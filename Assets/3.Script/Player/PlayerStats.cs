@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour
     private Text BombText;
     [SerializeField]
     private Text KeyText;
-
+    [SerializeField]
     private float speed;
     public float Speed
     {
@@ -125,7 +125,7 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
 
-        speed = 0.02f;
+        speed = 0.1f;
         Attack = 30f;
         MaxHp = 3f;
         curHp = 3f;
