@@ -11,6 +11,12 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject EmptyPedestal;
     [SerializeField] private GameObject CurItem;
+
+    [SerializeField] private AudioSource ETC;
+    [SerializeField] private AudioClip Soul;
+    [SerializeField] private AudioClip Coin;
+    [SerializeField] private AudioClip Key;
+    [SerializeField] private AudioClip GetItem;
     private GameObject obj;
     private void Awake()
     {
@@ -30,6 +36,7 @@ public class ShopItem : MonoBehaviour
                     {
                         if (playerStats.Money >= 5 && playerStats.Key < 99)
                         {
+                            ETC.PlayOneShot(Key);
                             playerStats.Money -= 5;
                             playerStats.Key += 1;
                             Destroy(gameObject);
@@ -51,6 +58,7 @@ public class ShopItem : MonoBehaviour
                     {
                         if (playerStats.Money >= 5 && playerStats.MaxHp + playerStats.SoulHp < 12)
                         {
+                            ETC.PlayOneShot(Soul);
                             playerStats.Money -= 5;
                             playerStats.SoulHp += 1;
                             Destroy(gameObject);
@@ -62,6 +70,7 @@ public class ShopItem : MonoBehaviour
                     {
                         if (playerStats.Money >= 15 && playerStats.MaxHp < 12)
                         {
+                            ETC.PlayOneShot(GetItem);
                             playerStats.Money -= 15;
                             playerStats.MaxHp += 1;
                             playerStats.curHp += 1;
@@ -78,6 +87,7 @@ public class ShopItem : MonoBehaviour
                     {
                         if (playerStats.Money >= 15)
                         {
+                            ETC.PlayOneShot(GetItem);
                             playerStats.Money -= 15;
                             playerStats.Pierce = 1;
                             Destroy(gameObject);

@@ -9,6 +9,9 @@ public class BossMap : MonoBehaviour
     [SerializeField] GameObject UI;
     [SerializeField] GameObject Hp;
     [SerializeField] GameObject ItemUI;
+    [SerializeField] AudioSource Audio;
+    [SerializeField] AudioClip Intro;
+    [SerializeField] AudioClip BossRoom;
     private bool BossSpwan = false;
     
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,10 +24,14 @@ public class BossMap : MonoBehaviour
 
     public IEnumerator BossUI()
     {
+        Audio.clip = Intro;
+        Audio.Play();
         ItemUI.SetActive(false);
         Hp.SetActive(false);
         UI.SetActive(true);
         yield return new WaitForSeconds(3f);
+        Audio.clip = BossRoom;
+        Audio.Play();
         UI.SetActive(false);
         Hp.SetActive(true);
         ItemUI.SetActive(true);

@@ -8,6 +8,9 @@ public class KeyDoorOpenClose : MonoBehaviour
 
     [SerializeField] private GameObject OpenDoor;
     [SerializeField] private GameObject CloseDoor;
+    [SerializeField] private AudioSource Audio;
+    [SerializeField] private AudioClip Open;
+
     private PlayerStats playerStats;
     private bool isOpenDoor;
     private void Awake()
@@ -24,6 +27,7 @@ public class KeyDoorOpenClose : MonoBehaviour
         }
         if (camConfirm.MonsterNum == 2 && isOpenDoor)
         {
+            Audio.PlayOneShot(Open);
             OpenDoor.SetActive(true);
             CloseDoor.SetActive(false);
         }

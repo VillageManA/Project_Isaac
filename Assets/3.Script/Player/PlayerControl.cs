@@ -16,7 +16,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private CameraManager Camera;
     [SerializeField] private GameObject DeadUI;
     [SerializeField] private GameObject Ghost;
-    
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip Hit;
+    [SerializeField] private AudioClip Dead;
+    [SerializeField] private AudioClip TearsAttack;
     private PlayerStats playerStats;
     private HealthUI healthUI;
     private GameObject obj;
@@ -25,7 +28,7 @@ public class PlayerControl : MonoBehaviour
     private float clipLength;
     private Color opaque;
     private Color transparent;
-
+    private Vector3 DeadPosition;
 
     void Awake()
     {
@@ -97,11 +100,13 @@ public class PlayerControl : MonoBehaviour
             GameObject obj;
             if (playerStats.Pierce == 1)
             {
+                audioSource.PlayOneShot(TearsAttack);
                 obj = Instantiate(PlayerPierceTears, transform.position, Quaternion.identity);
                 obj.transform.Rotate(x, y, z);
             }
             else
             {
+                audioSource.PlayOneShot(TearsAttack);
                 obj = Instantiate(PlayerTears, transform.position, Quaternion.identity);
             }
             obj.GetComponent<Movement2D>().MoveTo(dir);
@@ -119,6 +124,7 @@ public class PlayerControl : MonoBehaviour
     public IEnumerator TakeDamage_co(float Damage)  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
     {
         GetComponent<CircleCollider2D>().enabled = false; //피격시 무적
+        audioSource.PlayOneShot(Hit);
         if (playerStats.SoulHp > 0f)
         {
             playerStats.SoulHp -= Damage;
@@ -136,46 +142,48 @@ public class PlayerControl : MonoBehaviour
 
         if (playerStats.curHp == 0)
         {
-            
+            audioSource.PlayOneShot(Dead);
             playerHead.animator.SetTrigger("Dead");
             yield return new WaitForSeconds(1.6f);
-            obj = Instantiate(Ghost, transform.position, Quaternion.identity);
-            obj.transform.position = player.transform.position;
+            //obj = Instantiate(Ghost, DeadPosition, Quaternion.identity);
             yield return new WaitForSeconds(0.4f);
-            Destroy(obj);
+            //Destroy(obj);
             DeadUI.SetActive(true);
             playerStats.IsDead = true;
         }
+        else
+        {
 
-        playerHead.animator.SetTrigger("Hit");
-        yield return new WaitForSeconds(clipLength + 0.4f);
-        playerBody.gameObject.SetActive(true);
-        playerHead.animator.SetBool("Hit", false);
-        playerHead.GetComponent<SpriteRenderer>().color = opaque; //피격시 무적시간동안 케릭터 번쩍임
-        playerBody.GetComponent<SpriteRenderer>().color = opaque;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = transparent;
-        playerBody.GetComponent<SpriteRenderer>().color = transparent;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = opaque;
-        playerBody.GetComponent<SpriteRenderer>().color = opaque;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = transparent;
-        playerBody.GetComponent<SpriteRenderer>().color = transparent;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = opaque;
-        playerBody.GetComponent<SpriteRenderer>().color = opaque;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = transparent;
-        playerBody.GetComponent<SpriteRenderer>().color = transparent;
-        yield return ColorDelay;
-        playerHead.GetComponent<SpriteRenderer>().color = opaque;
-        playerBody.GetComponent<SpriteRenderer>().color = opaque;
+            playerHead.animator.SetTrigger("Hit");
+            yield return new WaitForSeconds(clipLength + 0.4f);
+            playerBody.gameObject.SetActive(true);
+            playerHead.animator.SetBool("Hit", false);
+            playerHead.GetComponent<SpriteRenderer>().color = opaque; //피격시 무적시간동안 케릭터 번쩍임
+            playerBody.GetComponent<SpriteRenderer>().color = opaque;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = transparent;
+            playerBody.GetComponent<SpriteRenderer>().color = transparent;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = opaque;
+            playerBody.GetComponent<SpriteRenderer>().color = opaque;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = transparent;
+            playerBody.GetComponent<SpriteRenderer>().color = transparent;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = opaque;
+            playerBody.GetComponent<SpriteRenderer>().color = opaque;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = transparent;
+            playerBody.GetComponent<SpriteRenderer>().color = transparent;
+            yield return ColorDelay;
+            playerHead.GetComponent<SpriteRenderer>().color = opaque;
+            playerBody.GetComponent<SpriteRenderer>().color = opaque;
 
 
 
-        GetComponent<CircleCollider2D>().enabled = true; //무적풀림
+            GetComponent<CircleCollider2D>().enabled = true; //무적풀림
 
+        }
     }
 
     public IEnumerator GetItem_co()  // 데미지를 입었을시 피격애니메이션과 체력조정하는 코루틴
@@ -192,5 +200,5 @@ public class PlayerControl : MonoBehaviour
 
     }
 
-    
+
 }

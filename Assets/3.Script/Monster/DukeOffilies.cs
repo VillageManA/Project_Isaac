@@ -6,6 +6,16 @@ public class DukeOffilies : MonoBehaviour
 {
     [SerializeField] private GameObject Sucker;
     [SerializeField] private GameObject EnemyTears;
+    [SerializeField] private AudioSource Audio;
+    [SerializeField] private AudioClip Attack1;
+    [SerializeField] private AudioClip Attack2;
+    [SerializeField] private AudioClip Attack3;
+    [SerializeField] private AudioClip SummonStart;
+    [SerializeField] private AudioClip SummonEnd;
+    [SerializeField] private AudioSource Main;
+    [SerializeField] private AudioClip BossEnd;
+    [SerializeField] private AudioClip BaseMent;
+
     private GameObject Tearsobj;
     private Animator animator;
     private PlayerControl player;
@@ -39,7 +49,7 @@ public class DukeOffilies : MonoBehaviour
         set
         {
             curhp = value;
-            if(curhp<0)
+            if (curhp < 0)
             {
                 curhp = 0;
             }
@@ -70,17 +80,18 @@ public class DukeOffilies : MonoBehaviour
         maxHp = 110f;
         gameObject.SetActive(false);
         LeftDownMove();
+
     }
 
     private void FixedUpdate()
     {
-        
+
         Movedealy += Time.deltaTime;
         if (isLeftWall)
         {
             RightDownMove();
             ResetBool();
-            
+
         }
         else if (isRightWall)
         {
@@ -98,7 +109,7 @@ public class DukeOffilies : MonoBehaviour
             ResetBool();
         }
 
-        if (isMove || Movedealy<3f)
+        if (isMove || Movedealy < 3f)
         {
             return;
         }
@@ -191,27 +202,33 @@ public class DukeOffilies : MonoBehaviour
     {
         animator.SetTrigger("3Attack");
         yield return wfs;
+        Audio.PlayOneShot(Attack1);
         Attack();
         yield return wfs;
+        Audio.PlayOneShot(Attack2);
         DiagonalAttack();
         yield return wfs;
+        Audio.PlayOneShot(Attack3);
         Attack();
         yield return wfs;
         yield return wfs;
-        
+
         isAttack = false;
     }
     private IEnumerator Summon_co()
     {
         animator.SetTrigger("Summon");
         yield return wfs;
+        Audio.PlayOneShot(SummonStart);
         Instantiate(Sucker, transform.position + summon, Quaternion.identity);
+        Audio.PlayOneShot(SummonEnd);
         yield return wfs;
         isAttack = false;
     }
     private IEnumerator AttackToplayer_co()
     {
         animator.SetTrigger("Attack");
+        Audio.PlayOneShot(Attack3);
         Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);
         Tearsobj.GetComponent<Movement2D>().MoveTo(playerPosition - transform.position);
         Tearsobj.GetComponent<Movement2D>().moveSpeed = 1f;
@@ -255,8 +272,10 @@ public class DukeOffilies : MonoBehaviour
     }
     public void Dead()
     {
+        Main.clip = BaseMent;
+        Main.PlayOneShot(BossEnd);
         camConfirm.BossNum = 2;
-        Destroy(gameObject);        
+        Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision) //벽과 닿을시 확인해주는 bool값 설정
     {
@@ -289,7 +308,7 @@ public class DukeOffilies : MonoBehaviour
         if (collision.CompareTag("BoomDamage"))
         {
             CurHp -= 5f;
-            if (curhp==0)
+            if (curhp == 0)
             {
 
                 Dead();
@@ -298,5 +317,6 @@ public class DukeOffilies : MonoBehaviour
         }
     }
 
+   
 
 }

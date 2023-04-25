@@ -12,6 +12,9 @@ public class KamikazeLeech : MonsterStats
     LayerMask layerMask;
     [SerializeField] GameObject BoomDamage;
     [SerializeField] GameObject BoomEffects;
+    private AudioSource Audio;
+    [SerializeField] private AudioClip Dash;
+    [SerializeField] private AudioClip Boom;
     public override void Awake()
     {
         base.Awake();
@@ -20,6 +23,8 @@ public class KamikazeLeech : MonsterStats
         BoomDamage.SetActive(false);
         BoomEffects.SetActive(false);
         CurHp = 25f;
+        TryGetComponent(out Audio);
+        Audio.Stop();
 
     }
     public void FixedUpdate()
@@ -36,6 +41,7 @@ public class KamikazeLeech : MonsterStats
         if (UpRayHit) // 위쪽에 플레이어 감지
         {
             StopMove();
+            Audio.PlayOneShot(Dash);
             moveMent2D.MoveTo(Vector3.up);
             animator.SetTrigger("UpDash");
             moveMent2D.moveSpeed = 7f;
@@ -45,6 +51,7 @@ public class KamikazeLeech : MonsterStats
         if (DownRayHit) // 아래쪽 플레이어 감지
         {
             StopMove();
+            Audio.PlayOneShot(Dash);
             moveMent2D.MoveTo(Vector3.down);
             animator.SetTrigger("DownDash");
             moveMent2D.moveSpeed = 7f;
@@ -54,6 +61,7 @@ public class KamikazeLeech : MonsterStats
         if (LeftRayHit) // 왼쪽 플레이어 감지
         {
             StopMove();
+            Audio.PlayOneShot(Dash);
             transform.Rotate(0, 180, 0);
             moveMent2D.MoveTo(Vector3.left);
             animator.SetTrigger("LeftDash");
@@ -64,6 +72,7 @@ public class KamikazeLeech : MonsterStats
         if (RightRayHit) // 오른쪽 플레이어 감지
         {
             StopMove();
+            Audio.PlayOneShot(Dash);
             moveMent2D.MoveTo(Vector3.right);
             animator.SetTrigger("RightDash");
             moveMent2D.moveSpeed = 7f;
@@ -111,7 +120,7 @@ public class KamikazeLeech : MonsterStats
     {
         WaitForSeconds wfs = new WaitForSeconds(0.1f);
 
-        
+        Audio.PlayOneShot(Boom);
         BoomDamage.SetActive(true);
         BoomEffects.SetActive(true);
         yield return wfs;

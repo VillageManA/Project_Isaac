@@ -12,11 +12,16 @@ public class Collectibles : MonoBehaviour
     [SerializeField] private GameObject CurItem;
     private GameObject obj;
 
+    private AudioSource Audio;
+    
+
     private void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
         playerControl = FindObjectOfType<PlayerControl>();
         helthUI = FindObjectOfType<HealthUI>();
+        TryGetComponent(out Audio);
+        Audio.Stop();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -75,6 +80,7 @@ public class Collectibles : MonoBehaviour
                     break;
                 case EItem.ToothPicks:
                     {
+                        
                         playerStats.AttackSpeed += 0.4f;
                         //눈물색변경
                         ItmeMotion();
@@ -82,12 +88,14 @@ public class Collectibles : MonoBehaviour
                     break;
                 case EItem.Pyro:
                     {
+                       
                         playerStats.Boom = 99;
                         ItmeMotion();
                     }
                     break;
                 case EItem.MutantSpider:
                     {
+
                         ItmeMotion();
                         //공속배수 0.42 
                         //눈물 4개
@@ -110,9 +118,16 @@ public class Collectibles : MonoBehaviour
 
     public void ItmeMotion()
     {
-        Destroy(gameObject);
+        StartCoroutine(Auido_co());
         obj = Instantiate(CurItem, playerControl.transform.position + new Vector3(0, 1, 0), Quaternion.identity);
         playerControl.StartCoroutine(playerControl.GetItem_co());
         Destroy(obj, 0.5f);
+    }
+    public IEnumerator Auido_co()
+    {
+        Audio.Play();
+        transform.position = new Vector3(-999, 999, 999);
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
 }

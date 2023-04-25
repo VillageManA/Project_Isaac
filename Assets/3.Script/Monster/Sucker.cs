@@ -9,7 +9,8 @@ public class Sucker : MonoBehaviour
     private float curhp;
     private PlayerStats playerStats;
     private PlayerControl player;
-    
+    private AudioSource Audio;
+    [SerializeField] private AudioClip Dead;
 
     private float DistanceObjectX;
     private float DistanceObjectY;
@@ -31,6 +32,7 @@ public class Sucker : MonoBehaviour
         CurHp = 10;
         playerStats = FindObjectOfType<PlayerStats>();
         player = FindObjectOfType<PlayerControl>();
+        TryGetComponent(out Audio);
     }
 
     private void Update()
@@ -58,6 +60,7 @@ public class Sucker : MonoBehaviour
             CurHp -= playerStats.Attack;
             if (CurHp <= 0) //죽을때 + 방향으로 눈물발사
             {
+                Audio.PlayOneShot(Dead);
                 Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);
                 Tearsobj.GetComponent<Movement2D>().MoveTo(Vector3.up);
                 Tearsobj = Instantiate(EnemyTears, transform.position, Quaternion.identity);

@@ -17,6 +17,9 @@ public class RewardItem : MonoBehaviour
     [SerializeField] private GameObject Pyro;
     [SerializeField] private GameObject NextDoor;
     [SerializeField] private GameObject Empty;
+    [SerializeField] private AudioSource Main;
+
+    
 
     private Vector3 emptyVector;
   
@@ -36,6 +39,7 @@ public class RewardItem : MonoBehaviour
         }
         else
         {
+            StartCoroutine(RestartAudio_co());
             ItemCreate();
             camConfirm.BossNum = 3;
             NextDoor.SetActive(true);
@@ -100,6 +104,11 @@ public class RewardItem : MonoBehaviour
                 break;
 
         }
+    }
+    public IEnumerator RestartAudio_co()
+    {
+        yield return new WaitForSeconds(4f);
+        Main.Play();
     }
 
 }

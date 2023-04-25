@@ -10,6 +10,7 @@ public class BoomControl : MonoBehaviour
     [SerializeField] GameObject BoomEffects;
     [SerializeField] GameObject BoomDamage;
     [SerializeField] GameObject BoomShape;
+    private AudioSource Audio;
     Vector3 initialScale;
     // Start is called before the first frame update
     void Start()
@@ -17,12 +18,14 @@ public class BoomControl : MonoBehaviour
 
         TryGetComponent(out spriteRenderer);
         TryGetComponent(out Transform transform);
+        TryGetComponent(out Audio);
 
         boomCount = 0;
         StartCoroutine(Boom_co());
         BoomShape.SetActive(true);
         BoomShape.GetComponent<CircleCollider2D>().enabled = false;
         initialScale = new Vector3(1, 1, 1);
+        Audio.Stop();
 
 
 
@@ -74,6 +77,7 @@ public class BoomControl : MonoBehaviour
             { break; }
 
         }
+        Audio.Play();
         gameObject.transform.position = BoomShape.transform.position;
         BoomShape.SetActive(false);
         BoomEffects.SetActive(true);

@@ -37,11 +37,17 @@ public class Item : MonoBehaviour
     private PlayerStats playerStats;
 
     [SerializeField] private EItem itemType;
+    [SerializeField] private AudioSource ETC;
+    [SerializeField] private AudioClip Soul;
+    [SerializeField] private AudioClip Coin;
+    [SerializeField] private AudioClip Key;
 
+    [SerializeField] private AudioSource Audio;
     private void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
         healthUI = FindObjectOfType<HealthUI>();
+        
     }
 
 
@@ -55,6 +61,7 @@ public class Item : MonoBehaviour
                     {
                         if (playerStats.Money < 99)
                         {
+                            StartCoroutine(Audio_co(Coin));
                             playerStats.Money += 1;
                             Destroy(gameObject);
                         }
@@ -64,6 +71,7 @@ public class Item : MonoBehaviour
                     {
                         if (playerStats.Money < 99)
                         {
+                            StartCoroutine(Audio_co(Coin));
                             playerStats.Money += 5;
                             Destroy(gameObject);
                         }
@@ -73,6 +81,7 @@ public class Item : MonoBehaviour
                     {
                         if (playerStats.Money < 99)
                         {
+                            StartCoroutine(Audio_co(Coin));
                             playerStats.Money += 10;
                             Destroy(gameObject);
                         }
@@ -82,6 +91,7 @@ public class Item : MonoBehaviour
                     {
                         if (playerStats.Key < 99)
                         {
+                            StartCoroutine(Audio_co(Key));
                             playerStats.Key += 1;
                             Destroy(gameObject);
                         }
@@ -91,6 +101,7 @@ public class Item : MonoBehaviour
                     {
                         if (playerStats.Boom < 99)
                         {
+
                             playerStats.Boom += 1;
                             Destroy(gameObject);
                         }
@@ -122,6 +133,7 @@ public class Item : MonoBehaviour
                 switch (itemType)
                 {
                     case EItem.FullSourHeart:
+                        StartCoroutine(Audio_co(Soul));
                         playerStats.SoulHp += 1;
                         Destroy(gameObject);
                         healthUI.UpdateHeart();
@@ -129,5 +141,13 @@ public class Item : MonoBehaviour
                 }
 
         }
+    }
+
+    public IEnumerator Audio_co(AudioClip Name)
+    {
+        Audio.PlayOneShot(Name);
+        transform.position = new Vector3(-999, 999, 999);
+        yield return new WaitForSeconds(1f);
+
     }
 }
