@@ -42649,6 +42649,67 @@ MonoBehaviour:
   fullSoulHeartPreFab: {fileID: 1565982430317734622, guid: e94c7462f2119d847afd4c24c3e1f8be, type: 3}
   halfSoulHeartPreFab: {fileID: 8955068306535830001, guid: 214bf99b013197f419b32af58e7ca6aa, type: 3}
   mainCamera: {fileID: 519420031}
+  heart:
+  - {fileID: 1962212325}
+  - {fileID: 715562080}
+  - {fileID: 895550325}
+  - {fileID: 1953838824}
+  - {fileID: 1597267901}
+  - {fileID: 432276256}
+  - {fileID: 517076304}
+  - {fileID: 1519926440}
+  - {fileID: 728703483}
+  - {fileID: 1044974117}
+  - {fileID: 709330294}
+  - {fileID: 1882939744}
+  - {fileID: 824639404}
+  - {fileID: 186610386}
+  - {fileID: 1809215662}
+  - {fileID: 723256886}
+  - {fileID: 2008805426}
+  - {fileID: 510086012}
+  - {fileID: 97375353}
+  - {fileID: 1664905962}
+  - {fileID: 1292192894}
+  - {fileID: 61629046}
+  - {fileID: 394654915}
+  - {fileID: 1461407831}
+  - {fileID: 827549087}
+  - {fileID: 1784908635}
+  - {fileID: 232500048}
+  - {fileID: 735746070}
+  - {fileID: 517395992}
+  - {fileID: 1863161430}
+  - {fileID: 2137059963}
+  - {fileID: 844416656}
+  - {fileID: 852420530}
+  - {fileID: 463591555}
+  - {fileID: 2004595124}
+  - {fileID: 1281230526}
+  - {fileID: 1598718644}
+  - {fileID: 1251274068}
+  - {fileID: 207365822}
+  - {fileID: 1252570664}
+  - {fileID: 1741384797}
+  - {fileID: 2020175515}
+  - {fileID: 1196010310}
+  - {fileID: 487704230}
+  - {fileID: 1590687528}
+  - {fileID: 498305716}
+  - {fileID: 29233481}
+  - {fileID: 1884861046}
+  - {fileID: 2016806579}
+  - {fileID: 200732872}
+  - {fileID: 1714485054}
+  - {fileID: 692355514}
+  - {fileID: 1730808508}
+  - {fileID: 946284914}
+  - {fileID: 1283011251}
+  - {fileID: 1021871314}
+  - {fileID: 1572038361}
+  - {fileID: 1998532547}
+  - {fileID: 1605072945}
+  - {fileID: 802866695}
 --- !u!1 &1766053951
 GameObject:
   m_ObjectHideFlags: 0

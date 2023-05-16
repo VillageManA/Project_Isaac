@@ -19,12 +19,12 @@ public class HealthUI : MonoBehaviour
     private int FullSoulheart;
     private float remainSoulHeart;
     private float HalfSoulheart;
-    GameObject[] heart;
+    [SerializeField] GameObject[] heart;
     private void Awake()
     {
         playerStats = FindObjectOfType<PlayerStats>();
         canvas = FindObjectOfType<Canvas>();
-        heart = GameObject.FindGameObjectsWithTag("HP");
+        
     }
     private void Start()
     {
